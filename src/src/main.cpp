@@ -19,7 +19,8 @@ void guardarDatosClientes();
 int main() {
 
     queue<clienteGeneral*> listaClientes = cargarDatosClientesOrdenados();
-    //Print para ver si la lista se lleno
+
+    
     while (!listaClientes.empty()){
         cout << listaClientes.front()->getNombre() << endl;
         listaClientes.pop();
