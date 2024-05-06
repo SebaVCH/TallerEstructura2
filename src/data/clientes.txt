@@ -1,0 +1,9 @@
+Juan
+María,Discapacidad
+Pedro
+Ana
+Luis,Tercera edad
+Carolina
+David,Embarazada
+Carlos
+Elena,Tercera edad
