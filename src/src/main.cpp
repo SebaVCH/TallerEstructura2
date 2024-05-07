@@ -5,6 +5,7 @@
 #include "../include/clienteGeneral.h"
 #include "../include/clienteNormal.h"
 #include "../include/clientePreferencial.h"
+//prueba1
 
 using namespace std;
 
