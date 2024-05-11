@@ -1,0 +1,21 @@
+Medicamentos,Analgesicos,001,Ibuprofeno,5.99
+Medicamentos,Analgesicos,002,Paracetamol,4.50
+Medicamentos,Analgesicos,003,Aspirina,3.75
+Medicamentos,Antibioticos,004,Amoxicilina,10.25
+Medicamentos,Antibioticos,005,Azitromicina,15.50
+Cuidado Personal,Higiene Oral,006,Pasta de dientes,2.99
+Cuidado Personal,Higiene Oral,007,Cepillo de dientes,1.50
+Cuidado Personal,Cuidado de la Piel,008,Crema hidratante,8.75
+Cuidado Personal,Cuidado de la Piel,009,Protector solar,12.99
+Primeros Auxilios,Vendajes y apositos,010,Vendaje adhesivo,3.25
+Primeros Auxilios,Vendajes y apositos,011,Gasas esteriles,2.50
+Primeros Auxilios,Desinfectantes,012,Alcohol isopropilico,4.99
+Primeros Auxilios,Desinfectantes,013,Solucion de yodo,5.75
+Vitaminas y Suplementos,Multivitaminicos,014,Centrum,9.99
+Vitaminas y Suplementos,Multivitaminicos,015,One A Day,8.50
+Vitaminas y Suplementos,Suplementos de Calcio,016,Calcio + Vitamina D,7.25
+Vitaminas y Suplementos,Suplementos de Calcio,017,Calcio masticable,6.99
+Material de Curacion,Instrumentos quirurgicos,018,Tijeras de curacion,6.50
+Material de Curacion,Instrumentos quirurgicos,019,Pinzas de diseccion,8.99
+Material de Curacion,Gasas y algodon,020,Algodon en rollo,3.99
+Material de Curacion,Gasas y algodon,021,Gasas quirurgicas,4.25
