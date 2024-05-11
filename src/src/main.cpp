@@ -30,6 +30,9 @@ void menu(queue<clienteGeneral *> listaDeClientes) {
         cout << "Seleccione una opción:" << endl;
         cout << "1. Agregar cliente" << endl;
         cout << "2. Llamar siguiente cliente" << endl;
+        cout << "3. Productos en Bodega" << endl;
+        cout << "4. Agregar Productos Bodega" << endl;
+        cout << "5. Generar Boleta" << endl;
         cout << "0. Salir" << endl;
         cout << "Opción: ";
         cin >> opcion;
@@ -40,6 +43,19 @@ void menu(queue<clienteGeneral *> listaDeClientes) {
                 break;
             case 2:
                 llamarSiguienteCliente(listaDeClientes);
+                break;
+            case 3:
+                //se pregunta q categoria y se muestra esa categoria cuantos tiene
+                break;
+            case 4:
+                //Se preguntan todos los datos
+                //Categoria,Sub-Categoria,ID,NombreProducto,Precio,CantidadElementos
+                //Se agrega a bodega
+                break;
+            case 5:
+                //Se pregunta por el ID de un producta que se desee vender, luego se revisa si esta disponible
+                //Luego se imprime por pantalla algo como una boleta el valor y todo
+                //Se restan los elementos de Bodega
                 break;
             case 0:
                 cout << "Saliendo..." << endl;
