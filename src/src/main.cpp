@@ -154,7 +154,17 @@ queue<Producto*>  cargarDatosProductos(){
      if (arch.is_open()) {
         while (getline(arch, linea)) {
             stringstream ss(linea);
-            cout <<linea <<endl;
+            string categoria;
+            string subcategoria;
+            int idProducto;
+            string nombreProducto;
+            float precio;
+            int cantEnStock;
+            
+            getline(ss, subcategoria, ',');
+
+
+            cout <<subcategoria <<endl;
 
 
         }
