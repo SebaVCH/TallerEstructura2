@@ -5,6 +5,7 @@
 #include "../include/clienteGeneral.h"
 #include "../include/clienteNormal.h"
 #include "../include/clientePreferencial.h"
+#include "../include/Producto.h"
 
 using namespace std;
 
@@ -13,11 +14,16 @@ void agregarCliente(queue<clienteGeneral*> &lista);
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista);
 void llamarSiguienteCliente(queue<clienteGeneral*> &lista);
 
+queue<Producto*>  cargarDatosProductos();
+
+
 void menu(queue<clienteGeneral *> queue1);
 
 int main() {
 
     queue<clienteGeneral*> listaClientes = cargarDatosClientesOrdenados();
+    queue<Producto*> listaProductos = cargarDatosProductos();
+
     menu(listaClientes);
 
     return 0;
@@ -27,14 +33,14 @@ void menu(queue<clienteGeneral *> listaDeClientes) {
 
     int opcion;
     do {
-        cout << "Seleccione una opción:" << endl;
+        cout << "Seleccione una opcion:" << endl;
         cout << "1. Agregar cliente" << endl;
         cout << "2. Llamar siguiente cliente" << endl;
         cout << "3. Productos en Bodega" << endl;
         cout << "4. Agregar Productos Bodega" << endl;
         cout << "5. Generar Boleta" << endl;
         cout << "0. Salir" << endl;
-        cout << "Opción: ";
+        cout << "Opcion: ";
         cin >> opcion;
 
         switch (opcion) {
@@ -108,7 +114,10 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
 
     //Cargar datos de los clientes
     queue<clienteGeneral*> lista;
-    ifstream archivo("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt");
+    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
+    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
+
+    ifstream archivo("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt");
     string linea;
 
     if (archivo.is_open()) {
@@ -135,7 +144,30 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
     return ordenarSegunPreferencia(lista);
 
 }
+queue<Producto*>  cargarDatosProductos(){
+    queue<Producto*> listaProductos;
+    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
+    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
+    ifstream arch("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt");
+    string linea;
 
+     if (arch.is_open()) {
+        while (getline(arch, linea)) {
+            stringstream ss(linea);
+            cout <<linea <<endl;
+
+
+        }
+        arch.close();
+     }
+     else {
+        cout << "No se pudo abrir el archivo Productos.txt" << endl;
+     }
+
+    return listaProductos;
+
+
+}
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista) {
     //Ordenar la fila por orden preferencial
     queue<clienteGeneral*> terceraEdad;

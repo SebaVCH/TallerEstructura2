@@ -5,11 +5,13 @@
 #include "../include/Producto.h"
 using namespace std;
 
-Producto::Producto(string categoria, string subcategoria, float precio, int idProducto) {
+Producto::Producto(string categoria, string subcategoria,int idProducto,std:: string nombreProducto, float precio,int cantEnStock ) {
     this->categoria = categoria;
     this->subcategoria = subcategoria;
     this->precio = precio;
     this->idProducto = idProducto;
+    this->nombreProducto= nombreProducto;
+    this->cantEnStock= cantEnStock;
 }
 
 string Producto::getCategoria()  {
@@ -42,4 +44,12 @@ int Producto::getIdProducto()  {
 
 void Producto::setIdProducto(int idProducto) {
     this->idProducto = idProducto;
+}
+
+string Producto::getNombreProducto() { 
+    return nombreProducto;
+}
+
+void Producto::setNombreProducto(std::string nombreProducto) { 
+    this->nombreProducto = nombreProducto;
 }
