@@ -11,4 +11,6 @@ add_executable(TallerEstructura2 src/src/main.cpp
         src/src/clienteNormal.cpp
         src/include/clienteNormal.h
         src/src/clientePreferencial.cpp
-        src/include/clientePreferencial.h)
+        src/include/clientePreferencial.h
+        src/src/HashMap.cpp
+        src/include/HashMap.h)

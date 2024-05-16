@@ -18,13 +18,13 @@ class Producto {
     int cantEnStock;
 
 public:
-    Producto(std::string categoria, std::string subcategoria,int idProducto,std:: string nombreProducto, float precio,int cantEnStock );
+    Producto(string categoria, string subcategoria,int idProducto,string nombreProducto, float precio,int cantEnStock );
 
     string getCategoria() ;
-    void setCategoria(std::string categoria);
+    void setCategoria(string categoria);
 
     string getSubcategoria() ;
-    void setSubcategoria(std::string subcategoria);
+    void setSubcategoria(string subcategoria);
 
 
     float getPrecio() ;
@@ -34,7 +34,7 @@ public:
     void setIdProducto(int idProducto);
 
     string getNombreProducto() ;
-    void setNombreProducto(std::string nombreProducto);
+    void setNombreProducto(string nombreProducto);
 
     int getCantEnStock() ;
     void setCantEnStock(int cantEnStock);

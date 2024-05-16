@@ -79,6 +79,12 @@ build CMakeFiles/TallerEstructura2.dir/src/src/clientePreferencial.cpp.obj: CXX_
   OBJECT_DIR = CMakeFiles\TallerEstructura2.dir
   OBJECT_FILE_DIR = CMakeFiles\TallerEstructura2.dir\src\src
 
+build CMakeFiles/TallerEstructura2.dir/src/src/HashMap.cpp.obj: CXX_COMPILER__TallerEstructura2_unscanned_Debug D$:/CLionProjects/TallerEstructura2/src/src/HashMap.cpp || cmake_object_order_depends_target_TallerEstructura2
+  DEP_FILE = CMakeFiles\TallerEstructura2.dir\src\src\HashMap.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TallerEstructura2.dir
+  OBJECT_FILE_DIR = CMakeFiles\TallerEstructura2.dir\src\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target TallerEstructura2
@@ -87,7 +93,7 @@ build CMakeFiles/TallerEstructura2.dir/src/src/clientePreferencial.cpp.obj: CXX_
 #############################################
 # Link the executable TallerEstructura2.exe
 
-build TallerEstructura2.exe: CXX_EXECUTABLE_LINKER__TallerEstructura2_Debug CMakeFiles/TallerEstructura2.dir/src/src/main.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/Producto.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/clienteGeneral.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/clienteNormal.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/clientePreferencial.cpp.obj
+build TallerEstructura2.exe: CXX_EXECUTABLE_LINKER__TallerEstructura2_Debug CMakeFiles/TallerEstructura2.dir/src/src/main.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/Producto.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/clienteGeneral.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/clienteNormal.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/clientePreferencial.cpp.obj CMakeFiles/TallerEstructura2.dir/src/src/HashMap.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\TallerEstructura2.dir

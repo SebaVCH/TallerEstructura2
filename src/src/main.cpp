@@ -6,30 +6,34 @@
 #include "../include/clienteNormal.h"
 #include "../include/clientePreferencial.h"
 #include "../include/Producto.h"
+#include "../include/HashMap.h"
 
 using namespace std;
 
+//Menu
+void menu(queue<clienteGeneral *> listaClientes, HashMap listaProductos);
+
+//Cargar Datos
 queue<clienteGeneral*> cargarDatosClientesOrdenados();
+HashMap cargarDatosProductos();
+
+//Funciones del menu
 void agregarCliente(queue<clienteGeneral*> &lista);
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista);
 void llamarSiguienteCliente(queue<clienteGeneral*> &lista);
-
-queue<Producto*>  cargarDatosProductos();
-
-
-void menu(queue<clienteGeneral *> queue1);
+void agregarProducosABodega(HashMap listaDeProductos);
 
 int main() {
 
     queue<clienteGeneral*> listaClientes = cargarDatosClientesOrdenados();
-    queue<Producto*> listaProductos = cargarDatosProductos();
+    HashMap listaDeProductos = cargarDatosProductos();
 
-    menu(listaClientes);
+    menu(listaClientes,listaDeProductos);
 
     return 0;
 }
 
-void menu(queue<clienteGeneral *> listaDeClientes) {
+void menu(queue<clienteGeneral *> listaDeClientes, HashMap listaProductos) {
 
     int opcion;
     do {
@@ -54,9 +58,7 @@ void menu(queue<clienteGeneral *> listaDeClientes) {
                 //se pregunta q categoria y se muestra esa categoria cuantos tiene
                 break;
             case 4:
-                //Se preguntan todos los datos
-                //Categoria,Sub-Categoria,ID,NombreProducto,Precio,CantidadElementos
-                //Se agrega a bodega
+                agregarProducosABodega(listaProductos);
                 break;
             case 5:
                 //Se pregunta por el ID de un producta que se desee vender, luego se revisa si esta disponible
@@ -70,6 +72,32 @@ void menu(queue<clienteGeneral *> listaDeClientes) {
                 cout << "Opción no válida. Inténtelo de nuevo." << endl;
         }
     } while (opcion != 0);
+}
+
+void agregarProducosABodega(HashMap listaDeProductos) {
+
+    string categoria, subcategoria, nombreProducto;
+    float precio;
+    int idProducto, cantEnStock;
+
+    cout << "Ingrese la categoria del nuevo producto:" << endl;
+    cin >> categoria;
+    cout << "Ingrese la sub-categoria del nuevo producto:" << endl;
+    cin >> subcategoria;
+    cout << "Ingrese el nombre del nuevo producto:" << endl;
+    cin >> nombreProducto;
+    cout << "Ingrese el precio del nuevo producto:" << endl;
+    cin >> precio;
+    cout << "Ingrese el ID del nuevo producto:" << endl;
+    cin >> idProducto;
+    cout << "Ingrese la cantidad en stock del nuevo producto:" << endl;
+    cin >> cantEnStock;
+
+    Producto* nuevoProducto = new Producto(categoria,subcategoria,idProducto,nombreProducto,precio,cantEnStock);
+
+    listaDeProductos.insertarProducto(nuevoProducto);
+    cout << "Producto agregado correctamente a la bodega." << endl;
+
 }
 
 void agregarCliente(queue<clienteGeneral*> &lista) {
@@ -144,38 +172,41 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
     return ordenarSegunPreferencia(lista);
 
 }
-queue<Producto*>  cargarDatosProductos(){
-    queue<Producto*> listaProductos;
+HashMap cargarDatosProductos(){
+
+    //cargar productos al HashMap
+    HashMap listaDeProductos;
     //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
     //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
-    ifstream arch("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt");
+    ifstream arch("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt");
     string linea;
 
      if (arch.is_open()) {
-        while (getline(arch, linea)) {
-            stringstream ss(linea);
-            string categoria;
-            string subcategoria;
-            int idProducto;
-            string nombreProducto;
-            float precio;
-            int cantEnStock;
-            
-            getline(ss, subcategoria, ',');
+         while (std::getline(arch, linea)) {
+             stringstream ss(linea);
+             string categoria, subcategoria, nombreProducto;
+             float precio;
+             int idProducto, cantEnStock;
 
+             std::getline(ss, categoria, ',');
+             std::getline(ss, subcategoria, ',');
+             ss >> idProducto;
+             ss.ignore();
+             std::getline(ss, nombreProducto, ',');
+             ss >> precio;
+             ss.ignore();
+             ss >> cantEnStock;
 
-            cout <<subcategoria <<endl;
-
-
-        }
+             Producto* producto = new Producto(categoria,subcategoria,idProducto,nombreProducto,precio,cantEnStock);
+             listaDeProductos.insertarProducto(producto);
+         }
         arch.close();
      }
      else {
         cout << "No se pudo abrir el archivo Productos.txt" << endl;
      }
 
-    return listaProductos;
-
+    return listaDeProductos;
 
 }
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista) {
