@@ -2,11 +2,15 @@
 #include <queue>
 #include <fstream>
 #include <sstream>
+#include <algorithm> 
+#include <cctype>
 #include "../include/clienteGeneral.h"
 #include "../include/clienteNormal.h"
 #include "../include/clientePreferencial.h"
 #include "../include/Producto.h"
 #include "../include/HashMap.h"
+// g++ src/src/*.cpp -o a
+
 
 using namespace std;
 
@@ -24,7 +28,7 @@ void llamarSiguienteCliente(queue<clienteGeneral*> &lista);
 void agregarProducosABodega(HashMap &listaDeProductos);
 
 void mostrarProductosBodega(HashMap &listaDeProductos);
-
+void generarBoleta(HashMap &listaProductos);
 int main() {
 
     queue<clienteGeneral*> listaClientes = cargarDatosClientesOrdenados();
@@ -52,20 +56,28 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
         switch (opcion) {
             case 1:
                 agregarCliente(listaDeClientes);
+                cout<< endl;
                 break;
             case 2:
                 llamarSiguienteCliente(listaDeClientes);
+                cout<< endl;
                 break;
             case 3:
                 mostrarProductosBodega(listaProductos);
+                cout<< endl;
                 break;
             case 4:
                 agregarProducosABodega(listaProductos);
+                cout<< endl;
+
                 break;
             case 5:
                 //Se pregunta por el ID de un producta que se desee vender, luego se revisa si esta disponible
-                //Luego se imprime por pantalla algo como una boleta el valor y todo
+                //Luego se imprime por pantalla algo como una boleta el valor y todo //hasta aca
+
                 //Se restan los elementos de Bodega
+                generarBoleta(listaProductos);
+                cout<< endl;
                 break;
             case 0:
                 cout << "Saliendo..." << endl;
@@ -76,13 +88,61 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
     } while (opcion != 0);
 }
 
+
+void generarBoleta(HashMap& listaProductos){
+    
+    string idABuscar;
+    cout << "Ingrese ID del producto: ";
+    cin >> idABuscar;
+    int id = stoi(idABuscar);
+    int cant;
+    Producto* producto = listaProductos.buscar(id);
+    if (producto != nullptr) {
+        cout << "Producto encontrado: " << producto->getNombreProducto() << endl;
+        cout << "Precio unitario: $" << producto->getPrecio() << endl;
+        cout << "Cantidad disponible en stock: " << producto->getCantEnStock() << endl;
+        cout << "Cuantos Desea comprar?" << endl;
+        cout << "Cantidad: ";
+        cin >> cant;
+        if (cant<= producto->getCantEnStock()){
+            float precio = producto->getPrecio();
+
+            cout << "El precio final es: "<<precio*cant<<" $" << endl;
+            cout << "Pagar? (Si/No): ";
+            string respuesta;
+            cin >> respuesta;
+            transform(respuesta.begin(), respuesta.end(), respuesta.begin(), [](unsigned char c){ return tolower(c); });
+
+            if (respuesta == "si") {
+                cout << "Compra efectuada con exito" << endl;
+                //ahora se modifica el txt
+            } 
+            else if (respuesta == "no") {
+                cout << "Compra Rechazada" << endl;
+            } 
+            else {
+                cout << "Respuesta no válida." << endl;
+            }
+        }
+        else{
+                    cout << "Ingrese un Valor Valido " <<endl;
+        }
+    }
+    else {
+        cout << "Producto no encontrado con el ID proporcionado." << endl;
+    }
+}
+
+
+
 void mostrarProductosBodega(HashMap& listaDeProductos) {
     string opcion;
-    cout << "Indique la opción que desea:" << endl;
+    cout << "Indique la opcion que desea:" << endl;
     cout << "1) Ver todos los productos." << endl;
-    cout << "2) Filtrar por categoría." << endl;
-    cout << "3) Filtrar por sub-categoría." << endl;
+    cout << "2) Filtrar por categoria." << endl;
+    cout << "3) Filtrar por sub-categoria." << endl;
     cout << "0) Salir." << endl;
+    cout <<  "Opcion: ";
     cin >> opcion;
 
     switch (stoi(opcion)) {
@@ -233,9 +293,9 @@ HashMap cargarDatosProductos(){
 
     //cargar productos al HashMap
     HashMap listaDeProductos;
-    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
-    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
-    ifstream arch("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt");
+    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
+    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
+    ifstream arch("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt");
     string linea;
 
      if (arch.is_open()) {

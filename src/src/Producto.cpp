@@ -53,3 +53,11 @@ string Producto::getNombreProducto() {
 void Producto::setNombreProducto(string nombreProducto) {
     this->nombreProducto = nombreProducto;
 }
+
+int Producto::getCantEnStock()  {
+    return cantEnStock;
+}
+
+void Producto::setCantEnStock(int cantEnStock) {
+    this->cantEnStock = cantEnStock;
+}
