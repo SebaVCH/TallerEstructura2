@@ -11,7 +11,7 @@
 using namespace std;
 
 //Menu
-void menu(queue<clienteGeneral *> listaClientes, HashMap listaProductos);
+void menu(queue<clienteGeneral *> listaClientes, HashMap& listaProductos);
 
 //Cargar Datos
 queue<clienteGeneral*> cargarDatosClientesOrdenados();
@@ -21,7 +21,9 @@ HashMap cargarDatosProductos();
 void agregarCliente(queue<clienteGeneral*> &lista);
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista);
 void llamarSiguienteCliente(queue<clienteGeneral*> &lista);
-void agregarProducosABodega(HashMap listaDeProductos);
+void agregarProducosABodega(HashMap &listaDeProductos);
+
+void mostrarProductosBodega(HashMap &listaDeProductos);
 
 int main() {
 
@@ -33,7 +35,7 @@ int main() {
     return 0;
 }
 
-void menu(queue<clienteGeneral *> listaDeClientes, HashMap listaProductos) {
+void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
 
     int opcion;
     do {
@@ -55,7 +57,7 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap listaProductos) {
                 llamarSiguienteCliente(listaDeClientes);
                 break;
             case 3:
-                //se pregunta q categoria y se muestra esa categoria cuantos tiene
+                mostrarProductosBodega(listaProductos);
                 break;
             case 4:
                 agregarProducosABodega(listaProductos);
@@ -74,7 +76,62 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap listaProductos) {
     } while (opcion != 0);
 }
 
-void agregarProducosABodega(HashMap listaDeProductos) {
+void mostrarProductosBodega(HashMap& listaDeProductos) {
+    string opcion;
+    cout << "Indique la opción que desea:" << endl;
+    cout << "1) Ver todos los productos." << endl;
+    cout << "2) Filtrar por categoría." << endl;
+    cout << "3) Filtrar por sub-categoría." << endl;
+    cout << "0) Salir." << endl;
+    cin >> opcion;
+
+    switch (stoi(opcion)) {
+        case 1: {
+            cout << "Todos los productos en la bodega:" << endl;
+            for (int i = 0; i < listaDeProductos.obtenerCantElementos(); ++i) {
+                Producto* producto = listaDeProductos.buscar(i);
+                if (producto != nullptr) {
+                    cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+                }
+            }
+            break;
+        }
+        case 2: {
+            string categoria;
+            cout << "Ingrese la categoría para filtrar: ";
+            cin >> categoria;
+            cout << "Productos en la categoría " << categoria << ":" << endl;
+            for (int i = 0; i < listaDeProductos.obtenerCantElementos(); ++i) {
+                Producto* producto = listaDeProductos.buscar(i);
+                if (producto != nullptr && producto->getCategoria() == categoria) {
+                    cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+                }
+            }
+            break;
+        }
+        case 3: {
+            string subcategoria;
+            cout << "Ingrese la sub-categoría para filtrar: ";
+            cin >> subcategoria;
+            cout << "Productos en la sub-categoría " << subcategoria << ":" << endl;
+            for (int i = 0; i < listaDeProductos.obtenerCantElementos(); ++i) {
+                Producto* producto = listaDeProductos.buscar(i);
+                if (producto != nullptr && producto->getSubcategoria() == subcategoria) {
+                    cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+                }
+            }
+            break;
+        }
+        case 0:
+            cout << "Saliendo..." << endl;
+            break;
+        default:
+            cout << "Opción no válida. Inténtelo de nuevo." << endl;
+    }
+}
+
+
+void agregarProducosABodega(HashMap& listaDeProductos) {
 
     string categoria, subcategoria, nombreProducto;
     float precio;
@@ -182,17 +239,17 @@ HashMap cargarDatosProductos(){
     string linea;
 
      if (arch.is_open()) {
-         while (std::getline(arch, linea)) {
+         while (getline(arch, linea)) {
              stringstream ss(linea);
              string categoria, subcategoria, nombreProducto;
              float precio;
              int idProducto, cantEnStock;
 
-             std::getline(ss, categoria, ',');
-             std::getline(ss, subcategoria, ',');
+             getline(ss, categoria, ',');
+             getline(ss, subcategoria, ',');
              ss >> idProducto;
              ss.ignore();
-             std::getline(ss, nombreProducto, ',');
+             getline(ss, nombreProducto, ',');
              ss >> precio;
              ss.ignore();
              ss >> cantEnStock;
