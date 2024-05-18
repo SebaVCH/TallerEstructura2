@@ -1,7 +1,7 @@
 //
 // Created by sebav on 16-05-2024.
 //
-
+#include <fstream>
 #include "../include/HashMap.h"
 
 HashMap::HashMap() {
@@ -105,3 +105,22 @@ int HashMap::obtenerCantElementos() {
 
 
 
+void HashMap::actualizarArchivo(const string& nombreArchivo) {
+    ofstream archivo(nombreArchivo);
+    if (archivo.is_open()) {
+        for (int i = 0; i < capacidad; ++i) {
+            if (tabla[i] != nullptr) {
+                archivo << tabla[i]->getCategoria() << ","
+                        << tabla[i]->getSubcategoria() << ","
+                        << tabla[i]->getIdProducto() << ","
+                        << tabla[i]->getNombreProducto() << ","
+                        << tabla[i]->getPrecio() << ","
+                        << tabla[i]->getCantEnStock() << endl;
+            }
+        }
+        archivo.close();
+        cout << "Archivo actualizado exitosamente." << endl;
+    } else {
+        cerr << "Error al abrir el archivo: " << nombreArchivo << endl;
+    }
+}

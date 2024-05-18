@@ -73,9 +73,9 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
                 break;
             case 5:
                 //Se pregunta por el ID de un producta que se desee vender, luego se revisa si esta disponible
-                //Luego se imprime por pantalla algo como una boleta el valor y todo //hasta aca
+                //Luego se imprime por pantalla algo como una boleta el valor y todo 
 
-                //Se restan los elementos de Bodega
+                //Se restan los elementos de Bodega //hasta aca
                 generarBoleta(listaProductos);
                 cout<< endl;
                 break;
@@ -116,6 +116,14 @@ void generarBoleta(HashMap& listaProductos){
             if (respuesta == "si") {
                 cout << "Compra efectuada con exito" << endl;
                 //ahora se modifica el txt
+                producto->setCantEnStock(producto->getCantEnStock() - cant); 
+
+                //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
+                //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
+
+                string nombreArch="D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt";
+
+                listaProductos.actualizarArchivo(nombreArch); 
             } 
             else if (respuesta == "no") {
                 cout << "Compra Rechazada" << endl;
@@ -125,7 +133,7 @@ void generarBoleta(HashMap& listaProductos){
             }
         }
         else{
-                    cout << "Ingrese un Valor Valido " <<endl;
+                cout << "Ingrese un Valor Valido " <<endl;
         }
     }
     else {
