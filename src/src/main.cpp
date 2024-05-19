@@ -21,14 +21,17 @@ void menu(queue<clienteGeneral *> listaClientes, HashMap& listaProductos);
 queue<clienteGeneral*> cargarDatosClientesOrdenados();
 HashMap cargarDatosProductos();
 
+//Ordenar Datos
+queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista);
+
 //Funciones del menu
 void agregarCliente(queue<clienteGeneral*> &lista);
-queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista);
-void llamarSiguienteCliente(queue<clienteGeneral*> &lista);
+void llamarSiguienteCliente(queue<clienteGeneral*> &lista, HashMap &listaDeProductos);
 void agregarProducosABodega(HashMap &listaDeProductos);
-
 void mostrarProductosBodega(HashMap &listaDeProductos);
 void generarBoleta(HashMap &listaProductos);
+
+
 int main() {
 
     queue<clienteGeneral*> listaClientes = cargarDatosClientesOrdenados();
@@ -41,14 +44,16 @@ int main() {
 
 void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
 
+
+    //Menu para seleccionar la opcion que se desea realizar
     int opcion;
     do {
         cout << "Seleccione una opcion:" << endl;
-        cout << "1. Agregar cliente" << endl;
-        cout << "2. Llamar siguiente cliente" << endl;
-        cout << "3. Productos en Bodega" << endl;
-        cout << "4. Agregar Productos Bodega" << endl;
-        cout << "5. Generar Boleta" << endl;
+        cout << "1. Agregar cliente a la fila" << endl;
+        cout << "2. Atender al cliente" << endl;
+        cout << "3. Mostrar productos en bodega" << endl;
+        cout << "4. Agregar productos a la bodega" << endl;
+        //cout << "5. Generar boleta" << endl;
         cout << "0. Salir" << endl;
         cout << "Opcion: ";
         cin >> opcion;
@@ -59,7 +64,7 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
                 cout<< endl;
                 break;
             case 2:
-                llamarSiguienteCliente(listaDeClientes);
+                llamarSiguienteCliente(listaDeClientes, listaProductos);
                 cout<< endl;
                 break;
             case 3:
@@ -71,14 +76,14 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
                 cout<< endl;
 
                 break;
-            case 5:
-                //Se pregunta por el ID de un producta que se desee vender, luego se revisa si esta disponible
-                //Luego se imprime por pantalla algo como una boleta el valor y todo 
-
-                //Se restan los elementos de Bodega //hasta aca
-                generarBoleta(listaProductos);
-                cout<< endl;
-                break;
+//            case 5:
+//                //Se pregunta por el ID de un producta que se desee vender, luego se revisa si esta disponible
+//                //Luego se imprime por pantalla algo como una boleta el valor y todo
+//
+//                //Se restan los elementos de Bodega //hasta aca
+//                generarBoleta(listaProductos);
+//                cout<< endl;
+//                break;
             case 0:
                 cout << "Saliendo..." << endl;
                 break;
@@ -88,62 +93,64 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
     } while (opcion != 0);
 }
 
-
 void generarBoleta(HashMap& listaProductos){
-    
-    string idABuscar;
-    cout << "Ingrese ID del producto: ";
-    cin >> idABuscar;
-    int id = stoi(idABuscar);
-    int cant;
-    Producto* producto = listaProductos.buscar(id);
-    if (producto != nullptr) {
-        cout << "Producto encontrado: " << producto->getNombreProducto() << endl;
-        cout << "Precio unitario: $" << producto->getPrecio() << endl;
-        cout << "Cantidad disponible en stock: " << producto->getCantEnStock() << endl;
-        cout << "Cuantos Desea comprar?" << endl;
-        cout << "Cantidad: ";
-        cin >> cant;
-        if (cant<= producto->getCantEnStock()){
-            float precio = producto->getPrecio();
 
-            cout << "El precio final es: "<<precio*cant<<" $" << endl;
-            cout << "Pagar? (Si/No): ";
-            string respuesta;
-            cin >> respuesta;
-            transform(respuesta.begin(), respuesta.end(), respuesta.begin(), [](unsigned char c){ return tolower(c); });
+    //Generar el total de la compra segun el total de productos comprados
+    string respuesta;
+    do {
+        string idABuscar;
+        cout << "Ingrese ID del producto: ";
+        cin >> idABuscar;
+        int id = stoi(idABuscar);
+        int cant;
+        Producto* producto = listaProductos.buscar(id);
+        if (producto != nullptr) {
+            cout << "Producto encontrado: " << producto->getNombreProducto() << endl;
+            cout << "Precio unitario: $" << producto->getPrecio() << endl;
+            cout << "Cantidad disponible en stock: " << producto->getCantEnStock() << endl;
+            cout << "¿Cuántos desea comprar?" << endl;
+            cout << "Cantidad: ";
+            cin >> cant;
+            if (cant <= producto->getCantEnStock()) {
+                float precio = producto->getPrecio();
 
-            if (respuesta == "si") {
-                cout << "Compra efectuada con exito" << endl;
-                //ahora se modifica el txt
-                producto->setCantEnStock(producto->getCantEnStock() - cant); 
+                cout << "El precio final es: "<< precio * cant << " $" << endl;
+                cout << "¿Pagar? (Si/No): ";
+                cin >> respuesta;
+                transform(respuesta.begin(), respuesta.end(), respuesta.begin(), [](unsigned char c){ return tolower(c); });
 
-                //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
-                //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
+                if (respuesta == "si") {
+                    cout << "Compra efectuada con éxito" << endl;
+                    // ahora se modifica el stock
+                    producto->setCantEnStock(producto->getCantEnStock() - cant);
 
-                string nombreArch="D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt";
-
-                listaProductos.actualizarArchivo(nombreArch); 
-            } 
-            else if (respuesta == "no") {
-                cout << "Compra Rechazada" << endl;
-            } 
+                    // actualización del archivo
+                    string nombreArch = "ruta/del/archivo/Bodega.txt"; // Cambia la ruta a la correcta
+                    listaProductos.actualizarArchivo(nombreArch);
+                }
+                else if (respuesta == "no") {
+                    cout << "Compra rechazada" << endl;
+                }
+                else {
+                    cout << "Respuesta no válida." << endl;
+                }
+            }
             else {
-                cout << "Respuesta no válida." << endl;
+                cout << "Ingrese una cantidad válida." << endl;
             }
         }
-        else{
-                cout << "Ingrese un Valor Valido " <<endl;
+        else {
+            cout << "Producto no encontrado con el ID proporcionado." << endl;
         }
-    }
-    else {
-        cout << "Producto no encontrado con el ID proporcionado." << endl;
-    }
+        cout << "¿Desea agregar más productos? (Si/No): ";
+        cin >> respuesta;
+        transform(respuesta.begin(), respuesta.end(), respuesta.begin(), [](unsigned char c){ return tolower(c); });
+    } while (respuesta == "si");
 }
 
-
-
 void mostrarProductosBodega(HashMap& listaDeProductos) {
+
+    //Mostrar los productos en bodega segun el filtro que uno desee
     string opcion;
     cout << "Indique la opcion que desea:" << endl;
     cout << "1) Ver todos los productos." << endl;
@@ -198,9 +205,9 @@ void mostrarProductosBodega(HashMap& listaDeProductos) {
     }
 }
 
-
 void agregarProducosABodega(HashMap& listaDeProductos) {
 
+    //Agregar productos a la bodega con cada dato solicitado
     string categoria, subcategoria, nombreProducto;
     float precio;
     int idProducto, cantEnStock;
@@ -251,11 +258,11 @@ void agregarCliente(queue<clienteGeneral*> &lista) {
 
 }
 
-
-void llamarSiguienteCliente(queue<clienteGeneral*> &lista) {
-    //Llamar al siguiente cliente
+void llamarSiguienteCliente(queue<clienteGeneral*> &lista ,HashMap &listaDeProductos ) {
+    //Llamar al siguiente cliente y atenderlo
     if (!lista.empty()) {
         cout << "Cliente llamado: " << lista.front()->getNombre() << endl;
+        generarBoleta(listaDeProductos);
         delete lista.front();
         lista.pop();
     } else {
@@ -265,13 +272,17 @@ void llamarSiguienteCliente(queue<clienteGeneral*> &lista) {
 
 queue<clienteGeneral*> cargarDatosClientesOrdenados() {
 
-    //Cargar datos de los clientes
+    //Cargar datos de los clientes y asignarles el numero de atencion
+
     queue<clienteGeneral*> lista;
+    queue<clienteGeneral*> listaMostrar;
     //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
     //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
 
-    ifstream archivo("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt");
+    ifstream archivo("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt");
     string linea;
+    int numeroAtencion = 1;
+    cout << "Lista de clientes y numero de atencion: " << endl;
 
     if (archivo.is_open()) {
         while (getline(archivo, linea)) {
@@ -288,6 +299,13 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
                 lista.push(new clienteNormal(nombre));
             }
         }
+        listaMostrar = lista;
+        while (!listaMostrar.empty()) {
+            clienteGeneral* cliente = listaMostrar.front();
+            cout << "Cliente: " << cliente->getNombre() << ", Numero de cliente: " << numeroAtencion++ << endl;
+            listaMostrar.pop();
+        }
+
         archivo.close();
     } else {
         cout << "No se pudo abrir el archivo clientes.txt" << endl;
@@ -297,13 +315,14 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
     return ordenarSegunPreferencia(lista);
 
 }
+
 HashMap cargarDatosProductos(){
 
-    //cargar productos al HashMap
+    //Cargar productos al HashMap
     HashMap listaDeProductos;
     //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
     //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
-    ifstream arch("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt");
+    ifstream arch("D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt");
     string linea;
 
      if (arch.is_open()) {
@@ -334,14 +353,21 @@ HashMap cargarDatosProductos(){
     return listaDeProductos;
 
 }
+
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista) {
-    //Ordenar la fila por orden preferencial
+
+    //Numero de atencion
+
+    int numeroAtencion = 1;
+
+    //Ordenar la fila por orden preferencial y reasignar el numero de atencion
     queue<clienteGeneral*> terceraEdad;
     queue<clienteGeneral*> discapacidad;
     queue<clienteGeneral*> embarazada;
     queue<clienteGeneral*> normal;
 
-    queue<clienteGeneral*> ordenada;
+    queue<clienteGeneral*> listaOrdenada;
+    queue<clienteGeneral*> listaMostrar;
 
     while (!lista.empty()) {
         clienteGeneral* cliente = lista.front();
@@ -363,21 +389,30 @@ queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista) 
     }
 
     while (!terceraEdad.empty()) {
-        ordenada.push(terceraEdad.front());
+        listaOrdenada.push(terceraEdad.front());
         terceraEdad.pop();
     }
     while (!discapacidad.empty()) {
-        ordenada.push(discapacidad.front());
+        listaOrdenada.push(discapacidad.front());
         discapacidad.pop();
     }
     while (!embarazada.empty()) {
-        ordenada.push(embarazada.front());
+        listaOrdenada.push(embarazada.front());
         embarazada.pop();
     }
     while (!normal.empty()) {
-        ordenada.push(normal.front());
+        listaOrdenada.push(normal.front());
         normal.pop();
     }
 
-    return ordenada;
+
+    listaMostrar = listaOrdenada;
+    cout << "Lista de clientes reordenada y su respectivo numero de atencion: " << endl;
+    while (!listaMostrar.empty()) {
+        clienteGeneral* cliente = listaMostrar.front();
+        cout << "Cliente: " << cliente->getNombre() << ", Numero de cliente: " << numeroAtencion++ << endl;
+        listaMostrar.pop();
+    }
+
+    return listaOrdenada;
 }

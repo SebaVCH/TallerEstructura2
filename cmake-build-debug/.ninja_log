@@ -6,3 +6,13 @@
 16	448	7367215729073988	CMakeFiles/TallerEstructura2.dir/src/src/clientePreferencial.cpp.obj	b889d3c5eb2b085b
 5	537	7367149217810072	CMakeFiles/TallerEstructura2.dir/src/src/Producto.cpp.obj	ed258c8db54c330f
 13	466	7367215729252294	CMakeFiles/TallerEstructura2.dir/src/src/clienteNormal.cpp.obj	5aafec0f1364c218
+40	702	7378316637066753	CMakeFiles/TallerEstructura2.dir/src/src/HashMap.cpp.obj	bdf87e7d11e44eb2
+36	704	7378316637096761	CMakeFiles/TallerEstructura2.dir/src/src/Producto.cpp.obj	ed258c8db54c330f
+10	932	7378316639372789	CMakeFiles/TallerEstructura2.dir/src/src/main.cpp.obj	6fc736cb5b4d9153
+933	1207	7378316642092724	TallerEstructura2.exe	cecd91e1da396468
+4	692	7378317459598322	CMakeFiles/TallerEstructura2.dir/src/src/main.cpp.obj	6fc736cb5b4d9153
+692	784	7378317460490174	TallerEstructura2.exe	cecd91e1da396468
+3	972	7378344040020526	CMakeFiles/TallerEstructura2.dir/src/src/main.cpp.obj	6fc736cb5b4d9153
+972	1083	7378344041107544	TallerEstructura2.exe	cecd91e1da396468
+4	858	7378345595940552	CMakeFiles/TallerEstructura2.dir/src/src/main.cpp.obj	6fc736cb5b4d9153
+858	959	7378345596937895	TallerEstructura2.exe	cecd91e1da396468
