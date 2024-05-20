@@ -124,3 +124,15 @@ void HashMap::actualizarArchivo(const string& nombreArchivo) {
         cerr << "Error al abrir el archivo: " << nombreArchivo << endl;
     }
 }
+
+void HashMap::limpiarHashMap() {
+
+    for (int i = 0; i < capacidad; ++i) {
+        if (tabla[i] != nullptr) {
+            delete tabla[i];
+            tabla[i] = nullptr;
+        }
+    }
+    numElementosAlmacenados = 0;
+
+}

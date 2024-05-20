@@ -76,16 +76,15 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
                 cout<< endl;
 
                 break;
-//            case 5:
-//                //Se pregunta por el ID de un producta que se desee vender, luego se revisa si esta disponible
-//                //Luego se imprime por pantalla algo como una boleta el valor y todo
-//
-//                //Se restan los elementos de Bodega //hasta aca
-//                generarBoleta(listaProductos);
-//                cout<< endl;
-//                break;
             case 0:
                 cout << "Saliendo..." << endl;
+
+                //Vaciar memoria de clientes y del hashmap
+                while (!listaDeClientes.empty()) {
+                    delete listaDeClientes.front();
+                    listaDeClientes.pop();
+                }
+                listaProductos.limpiarHashMap();
                 break;
             default:
                 cout << "Opción no válida. Inténtelo de nuevo." << endl;
@@ -121,11 +120,8 @@ void generarBoleta(HashMap& listaProductos){
 
                 if (respuesta == "si") {
                     cout << "Compra efectuada con éxito" << endl;
-                    // ahora se modifica el stock
                     producto->setCantEnStock(producto->getCantEnStock() - cant);
-
-                    // actualización del archivo
-                    string nombreArch = "ruta/del/archivo/Bodega.txt"; // Cambia la ruta a la correcta
+                    string nombreArch = "ruta/del/archivo/Bodega.txt";
                     listaProductos.actualizarArchivo(nombreArch);
                 }
                 else if (respuesta == "no") {
@@ -151,7 +147,7 @@ void generarBoleta(HashMap& listaProductos){
 void mostrarProductosBodega(HashMap& listaDeProductos) {
 
     //Mostrar los productos en bodega segun el filtro que uno desee
-    string opcion;
+    int opcion;
     cout << "Indique la opcion que desea:" << endl;
     cout << "1) Ver todos los productos." << endl;
     cout << "2) Filtrar por categoria." << endl;
@@ -160,7 +156,7 @@ void mostrarProductosBodega(HashMap& listaDeProductos) {
     cout <<  "Opcion: ";
     cin >> opcion;
 
-    switch (stoi(opcion)) {
+    switch (opcion) {
         case 1: {
             cout << "Todos los productos en la bodega:" << endl;
             for (int i = 0; i < listaDeProductos.obtenerCantElementos(); ++i) {
@@ -228,6 +224,8 @@ void agregarProducosABodega(HashMap& listaDeProductos) {
     Producto* nuevoProducto = new Producto(categoria,subcategoria,idProducto,nombreProducto,precio,cantEnStock);
 
     listaDeProductos.insertarProducto(nuevoProducto);
+    string nombreArch = "ruta/del/archivo/Bodega.txt";
+    listaDeProductos.actualizarArchivo(nombreArch);
     cout << "Producto agregado correctamente a la bodega." << endl;
 
 }

@@ -29,6 +29,8 @@ public:
     void eliminarProducto(int id);
     int obtenerCantElementos();
     void actualizarArchivo(const string& nombreArchivo);
+
+    void limpiarHashMap();
 };
 
 
