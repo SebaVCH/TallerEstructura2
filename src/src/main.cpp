@@ -55,7 +55,6 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
         cout << "2. Atender al cliente" << endl;
         cout << "3. Mostrar productos en bodega" << endl;
         cout << "4. Agregar productos a la bodega" << endl;
-        //cout << "5. Generar boleta" << endl;
         cout << "0. Salir" << endl;
         cout << "Opcion: ";
         cin >> opcion;
@@ -241,21 +240,33 @@ void agregarCliente(queue<clienteGeneral*> &listaDeClientes) {
 
     cout << "Ingrese el tipo de cliente (Tercera edad, Discapacidad, Embarazada, Normal): ";
     cin >> tipoCliente;
-    if (tipoCliente == "Tercera edad" || tipoCliente == "Discapacidad" || tipoCliente == "Embarazada" || tipoCliente == "Normal") {
-        if (tipoCliente == "Normal") {
+
+    transform(tipoCliente.begin(), tipoCliente.end(), tipoCliente.begin(), [](unsigned char c){ return tolower(c); });
+
+    if (tipoCliente == "tercera edad" || tipoCliente == "discapacidad" || tipoCliente == "embarazada" || tipoCliente == "normal") {
+        if (tipoCliente == "normal") {
             listaDeClientes.push(new clienteNormal(nombre));
-        } else {
-            listaDeClientes.push(new clientePreferencial(nombre, tipoCliente));
+        } 
+        else if(tipoCliente =="embarazada"){
+            listaDeClientes.push(new clientePreferencial(nombre, "Embarazada"));
         }
+        else if(tipoCliente =="discapacidad"){
+            listaDeClientes.push(new clientePreferencial(nombre, "Discapacidad"));
+        }
+        else if(tipoCliente =="tercera edad"){
+            listaDeClientes.push(new clientePreferencial(nombre, "Tercera edad"));
+        }
+        
         cout << "Cliente agregado correctamente a la cola." << endl;
+
+        //Ordenar para mantener la preferencia
+        ordenarSegunPreferencia(listaDeClientes);
+        guardarDatosClientes(listaDeClientes);
     } else {
-        cout << "Tipo de cliente inválido. Inténtelo de nuevo." << endl;
+        cout << "Tipo de cliente invalido. Intentelo de nuevo." << endl;
     }
 
-    //Ordenar para mantener la preferencia
-    ordenarSegunPreferencia(listaDeClientes);
-
-    guardarDatosClientes(listaDeClientes);
+    
 
 }
 
@@ -281,7 +292,7 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
     //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
     //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
 
-    ifstream archivo("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt");
+    ifstream archivo("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt");
     string linea;
     int numeroAtencion = 1;
     cout << "Lista de clientes y numero de atencion: " << endl;
@@ -325,7 +336,7 @@ HashMap cargarDatosProductos(){
     HashMap listaDeProductos;
     //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
     //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
-    ifstream arch("D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt");
+    ifstream arch("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt");
     string linea;
 
      if (arch.is_open()) {
@@ -425,8 +436,11 @@ queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &listaDe
 void guardarDatosClientes(queue<clienteGeneral*> &listaClientes) {
 
     //Guardar datos de los clientes
-    //Maxi cambia despues el clientes_guardados.txt, era solo para probar si se guardaba xd
-    ofstream archivo("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_guardados.txt");
+    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
+    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_guardados.txt"
+
+    
+    ofstream archivo("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt");
 
     if (archivo.is_open()) {
         while (!listaClientes.empty()) {
