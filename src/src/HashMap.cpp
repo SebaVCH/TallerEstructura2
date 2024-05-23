@@ -87,15 +87,18 @@ Producto *HashMap::buscar(int id){
 
 void HashMap::eliminarProducto(int id) {
 
-    for (int i = 0; i < capacidad; ++i) {
-        if (tabla[i] != nullptr && tabla[i]->getIdProducto() == id){
-            delete tabla[i];
-            tabla[i] = nullptr;
-            numElementosAlmacenados--;
-            return;
+    Producto* producto = buscar(id);
+
+    if (producto != nullptr && producto->getCantEnStock() <= 0) {
+        for (int i = 0; i < capacidad; ++i) {
+            if (tabla[i] != nullptr && tabla[i]->getIdProducto() == id){
+                delete tabla[i];
+                tabla[i] = nullptr;
+                numElementosAlmacenados--;
+                return;
+            }
         }
     }
-
 }
 
 int HashMap::obtenerCantElementos() {
@@ -105,7 +108,7 @@ int HashMap::obtenerCantElementos() {
 
 
 
-void HashMap::actualizarArchivo(const string& nombreArchivo) {
+void HashMap::actualizarArchivo(string& nombreArchivo) {
     ofstream archivo(nombreArchivo);
     if (archivo.is_open()) {
         for (int i = 0; i < capacidad; ++i) {

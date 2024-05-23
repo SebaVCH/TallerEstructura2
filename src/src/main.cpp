@@ -17,16 +17,17 @@ using namespace std;
 //Menu
 void menu(queue<clienteGeneral *> listaClientes, HashMap& listaProductos);
 
-//Cargar Datos
+//Cargar Datos y Guardar datos
 queue<clienteGeneral*> cargarDatosClientesOrdenados();
 HashMap cargarDatosProductos();
+void guardarDatosClientes(queue<clienteGeneral*>& listaClientes);
 
 //Ordenar Datos
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista);
 
 //Funciones del menu
-void agregarCliente(queue<clienteGeneral*> &lista);
-void llamarSiguienteCliente(queue<clienteGeneral*> &lista, HashMap &listaDeProductos);
+void agregarCliente(queue<clienteGeneral*> &listaDeClientes);
+void llamarSiguienteCliente(queue<clienteGeneral*> &listaDeClientes, HashMap &listaDeProductos);
 void agregarProducosABodega(HashMap &listaDeProductos);
 void mostrarProductosBodega(HashMap &listaDeProductos);
 void generarBoleta(HashMap &listaProductos);
@@ -48,6 +49,7 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
     //Menu para seleccionar la opcion que se desea realizar
     int opcion;
     do {
+        cout << "" << endl;
         cout << "Seleccione una opcion:" << endl;
         cout << "1. Agregar cliente a la fila" << endl;
         cout << "2. Atender al cliente" << endl;
@@ -97,10 +99,9 @@ void generarBoleta(HashMap& listaProductos){
     //Generar el total de la compra segun el total de productos comprados
     string respuesta;
     do {
-        string idABuscar;
+        int id;
         cout << "Ingrese ID del producto: ";
-        cin >> idABuscar;
-        int id = stoi(idABuscar);
+        cin >> id;
         int cant;
         Producto* producto = listaProductos.buscar(id);
         if (producto != nullptr) {
@@ -230,7 +231,7 @@ void agregarProducosABodega(HashMap& listaDeProductos) {
 
 }
 
-void agregarCliente(queue<clienteGeneral*> &lista) {
+void agregarCliente(queue<clienteGeneral*> &listaDeClientes) {
 
     //Agregar cliente a la fila
     string nombre;
@@ -242,9 +243,9 @@ void agregarCliente(queue<clienteGeneral*> &lista) {
     cin >> tipoCliente;
     if (tipoCliente == "Tercera edad" || tipoCliente == "Discapacidad" || tipoCliente == "Embarazada" || tipoCliente == "Normal") {
         if (tipoCliente == "Normal") {
-            lista.push(new clienteNormal(nombre));
+            listaDeClientes.push(new clienteNormal(nombre));
         } else {
-            lista.push(new clientePreferencial(nombre, tipoCliente));
+            listaDeClientes.push(new clientePreferencial(nombre, tipoCliente));
         }
         cout << "Cliente agregado correctamente a la cola." << endl;
     } else {
@@ -252,20 +253,23 @@ void agregarCliente(queue<clienteGeneral*> &lista) {
     }
 
     //Ordenar para mantener la preferencia
-    ordenarSegunPreferencia(lista);
+    ordenarSegunPreferencia(listaDeClientes);
+
+    guardarDatosClientes(listaDeClientes);
 
 }
 
-void llamarSiguienteCliente(queue<clienteGeneral*> &lista ,HashMap &listaDeProductos ) {
+void llamarSiguienteCliente(queue<clienteGeneral*> &listaDeClientes ,HashMap &listaDeProductos ) {
     //Llamar al siguiente cliente y atenderlo
-    if (!lista.empty()) {
-        cout << "Cliente llamado: " << lista.front()->getNombre() << endl;
+    if (!listaDeClientes.empty()) {
+        cout << "Cliente llamado: " << listaDeClientes.front()->getNombre() << endl;
         generarBoleta(listaDeProductos);
-        delete lista.front();
-        lista.pop();
+        delete listaDeClientes.front();
+        listaDeClientes.pop();
     } else {
         cout << "No hay clientes en espera." << endl;
     }
+    guardarDatosClientes(listaDeClientes);
 }
 
 queue<clienteGeneral*> cargarDatosClientesOrdenados() {
@@ -303,6 +307,7 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
             cout << "Cliente: " << cliente->getNombre() << ", Numero de cliente: " << numeroAtencion++ << endl;
             listaMostrar.pop();
         }
+        cout << "" << endl;
 
         archivo.close();
     } else {
@@ -352,7 +357,7 @@ HashMap cargarDatosProductos(){
 
 }
 
-queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista) {
+queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &listaDeClientes) {
 
     //Numero de atencion
 
@@ -367,9 +372,9 @@ queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista) 
     queue<clienteGeneral*> listaOrdenada;
     queue<clienteGeneral*> listaMostrar;
 
-    while (!lista.empty()) {
-        clienteGeneral* cliente = lista.front();
-        lista.pop();
+    while (!listaDeClientes.empty()) {
+        clienteGeneral* cliente = listaDeClientes.front();
+        listaDeClientes.pop();
 
         if (dynamic_cast<clientePreferencial*>(cliente)) {
             clientePreferencial* clientePref = dynamic_cast<clientePreferencial*>(cliente);
@@ -412,5 +417,36 @@ queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista) 
         listaMostrar.pop();
     }
 
+
+    guardarDatosClientes(listaOrdenada);
     return listaOrdenada;
 }
+
+void guardarDatosClientes(queue<clienteGeneral*> &listaClientes) {
+
+    //Guardar datos de los clientes
+    //Maxi cambia despues el clientes_guardados.txt, era solo para probar si se guardaba xd
+    ofstream archivo("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_guardados.txt");
+
+    if (archivo.is_open()) {
+        while (!listaClientes.empty()) {
+            clienteGeneral* cliente = listaClientes.front();
+            archivo << cliente->getNombre();
+
+            clientePreferencial* clientePref = dynamic_cast<clientePreferencial*>(cliente);
+            if (clientePref != nullptr) {
+                archivo << "," << clientePref->getTipoDeCliente();
+            }
+
+            archivo << endl;
+            listaClientes.pop();
+        }
+
+        archivo.close();
+        cout << "Datos de clientes guardados correctamente." << endl;
+    } else {
+        cout << "No se pudo abrir el archivo clientes.txt para guardar los datos." << endl;
+    }
+}
+
+

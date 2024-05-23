@@ -28,7 +28,7 @@ public:
     Producto* buscar(int id);
     void eliminarProducto(int id);
     int obtenerCantElementos();
-    void actualizarArchivo(const string& nombreArchivo);
+    void actualizarArchivo(string& nombreArchivo);
 
     void limpiarHashMap();
 };
