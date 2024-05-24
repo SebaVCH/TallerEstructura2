@@ -25,10 +25,13 @@ public:
     ~HashMap();
 
     void insertarProducto(Producto* producto);
-    Producto* buscar(int id);
-    void eliminarProducto(int id);
+    Producto* buscar(string id);
+    void eliminarProducto(string id);
     int obtenerCantElementos();
     void actualizarArchivo(string& nombreArchivo);
+    void mostrarProductos();
+    void mostrarProductosCategoria(string categoria);
+    void mostrarProductosSubCategoria(string subcategoria);
 
     void limpiarHashMap();
 };

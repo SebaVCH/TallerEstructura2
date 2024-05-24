@@ -98,7 +98,7 @@ void generarBoleta(HashMap& listaProductos){
     //Generar el total de la compra segun el total de productos comprados
     string respuesta;
     do {
-        int id;
+        string id;
         cout << "Ingrese ID del producto: ";
         cin >> id;
         int cant;
@@ -116,12 +116,12 @@ void generarBoleta(HashMap& listaProductos){
                 cout << "El precio final es: "<< precio * cant << " $" << endl;
                 cout << "¿Pagar? (Si/No): ";
                 cin >> respuesta;
-                transform(respuesta.begin(), respuesta.end(), respuesta.begin(), [](unsigned char c){ return tolower(c); });
+                transform(respuesta.begin(), respuesta.end(), respuesta.begin(),::tolower);
 
                 if (respuesta == "si") {
                     cout << "Compra efectuada con éxito" << endl;
                     producto->setCantEnStock(producto->getCantEnStock() - cant);
-                    string nombreArch = "ruta/del/archivo/Bodega.txt";
+                    string nombreArch = "D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt";
                     listaProductos.actualizarArchivo(nombreArch);
                 }
                 else if (respuesta == "no") {
@@ -140,7 +140,7 @@ void generarBoleta(HashMap& listaProductos){
         }
         cout << "¿Desea agregar más productos? (Si/No): ";
         cin >> respuesta;
-        transform(respuesta.begin(), respuesta.end(), respuesta.begin(), [](unsigned char c){ return tolower(c); });
+        transform(respuesta.begin(), respuesta.end(), respuesta.begin(), ::tolower);
     } while (respuesta == "si");
 }
 
@@ -159,38 +159,23 @@ void mostrarProductosBodega(HashMap& listaDeProductos) {
     switch (opcion) {
         case 1: {
             cout << "Todos los productos en la bodega:" << endl;
-            for (int i = 0; i < listaDeProductos.obtenerCantElementos(); ++i) {
-                Producto* producto = listaDeProductos.buscar(i);
-                if (producto != nullptr) {
-                    cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
-                }
-            }
+            listaDeProductos.mostrarProductos();
             break;
         }
         case 2: {
             string categoria;
             cout << "Ingrese la categoría para filtrar: ";
-            cin >> categoria;
+            getline(cin >> ws, categoria);
             cout << "Productos en la categoría " << categoria << ":" << endl;
-            for (int i = 0; i < listaDeProductos.obtenerCantElementos(); ++i) {
-                Producto* producto = listaDeProductos.buscar(i);
-                if (producto != nullptr && producto->getCategoria() == categoria) {
-                    cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
-                }
-            }
+            listaDeProductos.mostrarProductosCategoria(categoria);
             break;
         }
         case 3: {
             string subcategoria;
             cout << "Ingrese la sub-categoría para filtrar: ";
-            cin >> subcategoria;
+            getline(cin >> ws, subcategoria);
             cout << "Productos en la sub-categoría " << subcategoria << ":" << endl;
-            for (int i = 0; i < listaDeProductos.obtenerCantElementos(); ++i) {
-                Producto* producto = listaDeProductos.buscar(i);
-                if (producto != nullptr && producto->getSubcategoria() == subcategoria) {
-                    cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
-                }
-            }
+            listaDeProductos.mostrarProductosSubCategoria(subcategoria);
             break;
         }
         case 0:
@@ -204,9 +189,9 @@ void mostrarProductosBodega(HashMap& listaDeProductos) {
 void agregarProducosABodega(HashMap& listaDeProductos) {
 
     //Agregar productos a la bodega con cada dato solicitado
-    string categoria, subcategoria, nombreProducto;
+    string categoria, subcategoria, nombreProducto, idProducto;
     float precio;
-    int idProducto, cantEnStock;
+    int cantEnStock;
 
     cout << "Ingrese la categoria del nuevo producto:" << endl;
     cin >> categoria;
@@ -224,7 +209,7 @@ void agregarProducosABodega(HashMap& listaDeProductos) {
     Producto* nuevoProducto = new Producto(categoria,subcategoria,idProducto,nombreProducto,precio,cantEnStock);
 
     listaDeProductos.insertarProducto(nuevoProducto);
-    string nombreArch = "ruta/del/archivo/Bodega.txt";
+    string nombreArch = "D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt";
     listaDeProductos.actualizarArchivo(nombreArch);
     cout << "Producto agregado correctamente a la bodega." << endl;
 
@@ -262,7 +247,7 @@ queue<clienteGeneral*> agregarCliente(queue<clienteGeneral*> listaDeClientes) {
 
         //Ordenar para mantener la preferencia
         listaDeClientes = ordenarSegunPreferencia(listaDeClientes);
-        
+
     } else {
         cout << "Tipo de cliente invalido. Intentelo de nuevo." << endl;
     }
@@ -343,14 +328,13 @@ HashMap cargarDatosProductos(){
      if (arch.is_open()) {
          while (getline(arch, linea)) {
              stringstream ss(linea);
-             string categoria, subcategoria, nombreProducto;
+             string categoria, subcategoria, nombreProducto, idProducto;
              float precio;
-             int idProducto, cantEnStock;
+             int cantEnStock;
 
              getline(ss, categoria, ',');
              getline(ss, subcategoria, ',');
-             ss >> idProducto;
-             ss.ignore();
+             getline(ss, idProducto, ',');
              getline(ss, nombreProducto, ',');
              ss >> precio;
              ss.ignore();

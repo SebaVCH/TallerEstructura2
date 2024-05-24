@@ -74,7 +74,7 @@ void HashMap::insertarProducto(Producto *producto) {
 
 }
 
-Producto *HashMap::buscar(int id){
+Producto *HashMap::buscar(string id){
 
     for (int i = 0; i < capacidad; ++i) {
         if (tabla[i] != nullptr && tabla[i]->getIdProducto() == id){
@@ -85,7 +85,7 @@ Producto *HashMap::buscar(int id){
     return nullptr;
 }
 
-void HashMap::eliminarProducto(int id) {
+void HashMap::eliminarProducto(string id) {
 
     Producto* producto = buscar(id);
 
@@ -104,9 +104,6 @@ void HashMap::eliminarProducto(int id) {
 int HashMap::obtenerCantElementos() {
     return numElementosAlmacenados;
 }
-
-
-
 
 void HashMap::actualizarArchivo(string& nombreArchivo) {
     ofstream archivo(nombreArchivo);
@@ -139,3 +136,41 @@ void HashMap::limpiarHashMap() {
     numElementosAlmacenados = 0;
 
 }
+
+void HashMap::mostrarProductos() {
+
+    cout << "Todos los productos en la bodega:" << endl;
+    for (int i = 0; i < capacidad; ++i) {
+        if (tabla[i] != nullptr) {
+            Producto* producto = tabla[i];
+            cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+        }
+    }
+
+}
+
+void HashMap::mostrarProductosCategoria(string categoria) {
+
+    cout << "Productos en la categoría " << categoria << ":" << endl;
+    for (int i = 0; i < capacidad; ++i) {
+        if (tabla[i] != nullptr && tabla[i]->getCategoria() == categoria) {
+            Producto* producto = tabla[i];
+            cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+        }
+    }
+
+}
+
+void HashMap::mostrarProductosSubCategoria(string subcategoria) {
+
+    cout << "Productos en la subcategoría " << subcategoria << ":" << endl;
+    for (int i = 0; i < capacidad; ++i) {
+        if (tabla[i] != nullptr && tabla[i]->getSubcategoria() == subcategoria) {
+            Producto* producto = tabla[i];
+            cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+        }
+    }
+
+}
+
+

@@ -13,12 +13,12 @@ class Producto {
     string categoria;
     string subcategoria;
     float precio;
-    int idProducto;
+    string idProducto;
     string nombreProducto;
     int cantEnStock;
 
 public:
-    Producto(string categoria, string subcategoria,int idProducto,string nombreProducto, float precio,int cantEnStock );
+    Producto(string categoria, string subcategoria,string idProducto,string nombreProducto, float precio,int cantEnStock );
 
     string getCategoria() ;
     void setCategoria(string categoria);
@@ -30,8 +30,8 @@ public:
     float getPrecio() ;
     void setPrecio(float precio);
 
-    int getIdProducto() ;
-    void setIdProducto(int idProducto);
+    string getIdProducto() ;
+    void setIdProducto(string idProducto);
 
     string getNombreProducto() ;
     void setNombreProducto(string nombreProducto);
