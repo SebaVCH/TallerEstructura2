@@ -26,7 +26,7 @@ void guardarDatosClientes(queue<clienteGeneral*>& listaClientes);
 queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &lista);
 
 //Funciones del menu
-void agregarCliente(queue<clienteGeneral*> &listaDeClientes);
+queue<clienteGeneral*> agregarCliente(queue<clienteGeneral*> listaDeClientes);
 void llamarSiguienteCliente(queue<clienteGeneral*> &listaDeClientes, HashMap &listaDeProductos);
 void agregarProducosABodega(HashMap &listaDeProductos);
 void mostrarProductosBodega(HashMap &listaDeProductos);
@@ -44,7 +44,7 @@ int main() {
 }
 
 void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
-
+    
 
     //Menu para seleccionar la opcion que se desea realizar
     int opcion;
@@ -61,7 +61,7 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
 
         switch (opcion) {
             case 1:
-                agregarCliente(listaDeClientes);
+                listaDeClientes = agregarCliente(listaDeClientes);
                 cout<< endl;
                 break;
             case 2:
@@ -79,7 +79,6 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
                 break;
             case 0:
                 cout << "Saliendo..." << endl;
-
                 //Vaciar memoria de clientes y del hashmap
                 while (!listaDeClientes.empty()) {
                     delete listaDeClientes.front();
@@ -87,6 +86,7 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
                 }
                 listaProductos.limpiarHashMap();
                 break;
+
             default:
                 cout << "Opción no válida. Inténtelo de nuevo." << endl;
         }
@@ -230,7 +230,8 @@ void agregarProducosABodega(HashMap& listaDeProductos) {
 
 }
 
-void agregarCliente(queue<clienteGeneral*> &listaDeClientes) {
+queue<clienteGeneral*> agregarCliente(queue<clienteGeneral*> listaDeClientes) {
+    
 
     //Agregar cliente a la fila
     string nombre;
@@ -260,13 +261,16 @@ void agregarCliente(queue<clienteGeneral*> &listaDeClientes) {
         cout << "Cliente agregado correctamente a la cola." << endl;
 
         //Ordenar para mantener la preferencia
-        ordenarSegunPreferencia(listaDeClientes);
-        guardarDatosClientes(listaDeClientes);
+        listaDeClientes = ordenarSegunPreferencia(listaDeClientes);
+        
+        
+        //guardarDatosClientes(listaDeClientes);
     } else {
         cout << "Tipo de cliente invalido. Intentelo de nuevo." << endl;
     }
 
-    
+    return listaDeClientes;
+
 
 }
 
@@ -434,33 +438,45 @@ queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &listaDe
 }
 
 void guardarDatosClientes(queue<clienteGeneral*> &listaClientes) {
+    // Guardar datos de los clientes en un archivo temporal
 
-    //Guardar datos de los clientes
-    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
-    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_guardados.txt"
+    ofstream archivoTemp("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes_temp.txt");
 
-    
-    ofstream archivo("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt");
+    if (archivoTemp.is_open()) {
+        // Copiar la cola original para no modificarla
+        queue<clienteGeneral*> listaTemporal = listaClientes;
 
-    if (archivo.is_open()) {
-        while (!listaClientes.empty()) {
-            clienteGeneral* cliente = listaClientes.front();
-            archivo << cliente->getNombre();
+        while (!listaTemporal.empty()) {
+            clienteGeneral* cliente = listaTemporal.front();
+            archivoTemp << cliente->getNombre();
 
             clientePreferencial* clientePref = dynamic_cast<clientePreferencial*>(cliente);
             if (clientePref != nullptr) {
-                archivo << "," << clientePref->getTipoDeCliente();
+                archivoTemp << "," << clientePref->getTipoDeCliente();
             }
 
-            archivo << endl;
-            listaClientes.pop();
+            archivoTemp << endl;
+            listaTemporal.pop();
         }
 
-        archivo.close();
-        cout << "Datos de clientes guardados correctamente." << endl;
+        archivoTemp.close();
+        cout << "Datos de clientes guardados temporalmente." << endl;
+
+        // Eliminar el archivo original
+        if (remove("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
+            perror("Error al eliminar el archivo original.");
+        } else {
+            // Cambiar el nombre del archivo temporal al nombre del archivo original
+            if (rename("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes_temp.txt", "D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
+                perror("Error al cambiar el nombre del archivo temporal.");
+            } else {
+                cout << "Datos de clientes guardados correctamente." << endl;
+            }
+        }
     } else {
-        cout << "No se pudo abrir el archivo clientes.txt para guardar los datos." << endl;
+        cout << "No se pudo abrir el archivo temporal para guardar los datos." << endl;
     }
 }
+
 
 
