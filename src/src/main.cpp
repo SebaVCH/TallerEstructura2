@@ -236,13 +236,13 @@ queue<clienteGeneral*> agregarCliente(queue<clienteGeneral*> listaDeClientes) {
     //Agregar cliente a la fila
     string nombre;
     string tipoCliente;
-    cout << "Ingrese el nombre del cliente: ";
+    cout << "Ingrese el nombre del cliente: " << endl;
     cin >> nombre;
 
-    cout << "Ingrese el tipo de cliente (Tercera edad, Discapacidad, Embarazada, Normal): ";
-    cin >> tipoCliente;
+    cout << "Ingrese el tipo de cliente (Tercera edad, Discapacidad, Embarazada, Normal): " << endl;
+    getline(cin >> ws, tipoCliente);
 
-    transform(tipoCliente.begin(), tipoCliente.end(), tipoCliente.begin(), [](unsigned char c){ return tolower(c); });
+    transform(tipoCliente.begin(), tipoCliente.end(), tipoCliente.begin(), ::tolower);
 
     if (tipoCliente == "tercera edad" || tipoCliente == "discapacidad" || tipoCliente == "embarazada" || tipoCliente == "normal") {
         if (tipoCliente == "normal") {
@@ -263,14 +263,11 @@ queue<clienteGeneral*> agregarCliente(queue<clienteGeneral*> listaDeClientes) {
         //Ordenar para mantener la preferencia
         listaDeClientes = ordenarSegunPreferencia(listaDeClientes);
         
-        
-        //guardarDatosClientes(listaDeClientes);
     } else {
         cout << "Tipo de cliente invalido. Intentelo de nuevo." << endl;
     }
 
     return listaDeClientes;
-
 
 }
 
@@ -296,7 +293,7 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
     //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
     //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
 
-    ifstream archivo("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt");
+    ifstream archivo("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt");
     string linea;
     int numeroAtencion = 1;
     cout << "Lista de clientes y numero de atencion: " << endl;
@@ -340,7 +337,7 @@ HashMap cargarDatosProductos(){
     HashMap listaDeProductos;
     //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
     //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
-    ifstream arch("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt");
+    ifstream arch("D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt");
     string linea;
 
      if (arch.is_open()) {
@@ -440,7 +437,7 @@ queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &listaDe
 void guardarDatosClientes(queue<clienteGeneral*> &listaClientes) {
     // Guardar datos de los clientes en un archivo temporal
 
-    ofstream archivoTemp("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes_temp.txt");
+    ofstream archivoTemp("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_temp.txt");
 
     if (archivoTemp.is_open()) {
         // Copiar la cola original para no modificarla
@@ -463,11 +460,11 @@ void guardarDatosClientes(queue<clienteGeneral*> &listaClientes) {
         cout << "Datos de clientes guardados temporalmente." << endl;
 
         // Eliminar el archivo original
-        if (remove("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
+        if (remove("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
             perror("Error al eliminar el archivo original.");
         } else {
             // Cambiar el nombre del archivo temporal al nombre del archivo original
-            if (rename("D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes_temp.txt", "D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
+            if (rename("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_temp.txt", "D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
                 perror("Error al cambiar el nombre del archivo temporal.");
             } else {
                 cout << "Datos de clientes guardados correctamente." << endl;
