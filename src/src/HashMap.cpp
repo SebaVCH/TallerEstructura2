@@ -2,6 +2,7 @@
 // Created by sebav on 16-05-2024.
 //
 #include <fstream>
+#include <algorithm>
 #include "../include/HashMap.h"
 
 HashMap::HashMap() {
@@ -101,10 +102,6 @@ void HashMap::eliminarProducto(string id) {
     }
 }
 
-int HashMap::obtenerCantElementos() {
-    return numElementosAlmacenados;
-}
-
 void HashMap::actualizarArchivo(string& nombreArchivo) {
     ofstream archivo(nombreArchivo);
     if (archivo.is_open()) {
@@ -139,7 +136,6 @@ void HashMap::limpiarHashMap() {
 
 void HashMap::mostrarProductos() {
 
-    cout << "Todos los productos en la bodega:" << endl;
     for (int i = 0; i < capacidad; ++i) {
         if (tabla[i] != nullptr) {
             Producto* producto = tabla[i];
@@ -149,25 +145,32 @@ void HashMap::mostrarProductos() {
 
 }
 
-void HashMap::mostrarProductosCategoria(string categoria) {
+void HashMap::mostrarProductosCategoria(string categoriaBuscada) {
 
-    cout << "Productos en la categoría " << categoria << ":" << endl;
+    transform(categoriaBuscada.begin(), categoriaBuscada.end(), categoriaBuscada.begin(), ::tolower);
     for (int i = 0; i < capacidad; ++i) {
-        if (tabla[i] != nullptr && tabla[i]->getCategoria() == categoria) {
-            Producto* producto = tabla[i];
-            cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+        if (tabla[i] != nullptr) {
+            string categoriaProducto = tabla[i]->getCategoria();
+            transform(categoriaProducto.begin(), categoriaProducto.end(), categoriaProducto.begin(), ::tolower);
+            if (categoriaProducto == categoriaBuscada) {
+                Producto* producto = tabla[i];
+                cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+            }
         }
     }
-
 }
 
-void HashMap::mostrarProductosSubCategoria(string subcategoria) {
+void HashMap::mostrarProductosSubCategoria(string subCategoriaBuscada) {
 
-    cout << "Productos en la subcategoría " << subcategoria << ":" << endl;
+    transform(subCategoriaBuscada.begin(), subCategoriaBuscada.end(), subCategoriaBuscada.begin(), ::tolower);
     for (int i = 0; i < capacidad; ++i) {
-        if (tabla[i] != nullptr && tabla[i]->getSubcategoria() == subcategoria) {
-            Producto* producto = tabla[i];
-            cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+        if (tabla[i] != nullptr) {
+            string subCategoriaProducto = tabla[i]->getCategoria();
+            transform(subCategoriaProducto.begin(), subCategoriaProducto.end(), subCategoriaProducto.begin(), ::tolower);
+            if (subCategoriaProducto == subCategoriaBuscada) {
+                Producto* producto = tabla[i];
+                cout << "ID: " << producto->getIdProducto() << ", Nombre: " << producto->getNombreProducto() << endl;
+            }
         }
     }
 

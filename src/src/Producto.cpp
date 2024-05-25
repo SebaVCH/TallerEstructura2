@@ -18,40 +18,20 @@ string Producto::getCategoria()  {
     return categoria;
 }
 
-void Producto::setCategoria(string categoria) {
-    this->categoria = categoria;
-}
-
 string Producto::getSubcategoria()  {
     return subcategoria;
-}
-
-void Producto::setSubcategoria(string subcategoria) {
-    this->subcategoria = subcategoria;
 }
 
 float Producto::getPrecio()  {
     return precio;
 }
 
-void Producto::setPrecio(float precio) {
-    this->precio = precio;
-}
-
 string Producto::getIdProducto()  {
     return idProducto;
 }
 
-void Producto::setIdProducto(string idProducto) {
-    this->idProducto = idProducto;
-}
-
 string Producto::getNombreProducto() { 
     return nombreProducto;
-}
-
-void Producto::setNombreProducto(string nombreProducto) {
-    this->nombreProducto = nombreProducto;
 }
 
 int Producto::getCantEnStock()  {

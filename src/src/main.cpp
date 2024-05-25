@@ -2,15 +2,13 @@
 #include <queue>
 #include <fstream>
 #include <sstream>
-#include <algorithm> 
-#include <cctype>
+#include <algorithm>
 #include "../include/clienteGeneral.h"
 #include "../include/clienteNormal.h"
 #include "../include/clientePreferencial.h"
 #include "../include/Producto.h"
 #include "../include/HashMap.h"
 // g++ src/src/*.cpp -o a
-
 
 using namespace std;
 
@@ -75,7 +73,6 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
             case 4:
                 agregarProducosABodega(listaProductos);
                 cout<< endl;
-
                 break;
             case 0:
                 cout << "Saliendo..." << endl;
@@ -88,7 +85,7 @@ void menu(queue<clienteGeneral *> listaDeClientes, HashMap& listaProductos) {
                 break;
 
             default:
-                cout << "Opción no válida. Inténtelo de nuevo." << endl;
+                cout << "Opcion no valida. Intentelo de nuevo." << endl;
         }
     } while (opcion != 0);
 }
@@ -107,7 +104,7 @@ void generarBoleta(HashMap& listaProductos){
             cout << "Producto encontrado: " << producto->getNombreProducto() << endl;
             cout << "Precio unitario: $" << producto->getPrecio() << endl;
             cout << "Cantidad disponible en stock: " << producto->getCantEnStock() << endl;
-            cout << "¿Cuántos desea comprar?" << endl;
+            cout << "¿Cuantos desea comprar?" << endl;
             cout << "Cantidad: ";
             cin >> cant;
             if (cant <= producto->getCantEnStock()) {
@@ -119,26 +116,32 @@ void generarBoleta(HashMap& listaProductos){
                 transform(respuesta.begin(), respuesta.end(), respuesta.begin(),::tolower);
 
                 if (respuesta == "si") {
-                    cout << "Compra efectuada con éxito" << endl;
+                    cout << "Compra efectuada con exito" << endl;
                     producto->setCantEnStock(producto->getCantEnStock() - cant);
+
+                    if (producto->getCantEnStock() == 0){
+                        listaProductos.eliminarProducto(producto->getIdProducto());
+                    }
+                    //Actualizar la bodega
                     string nombreArch = "D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt";
                     listaProductos.actualizarArchivo(nombreArch);
+
                 }
                 else if (respuesta == "no") {
                     cout << "Compra rechazada" << endl;
                 }
                 else {
-                    cout << "Respuesta no válida." << endl;
+                    cout << "Respuesta no valida." << endl;
                 }
             }
             else {
-                cout << "Ingrese una cantidad válida." << endl;
+                cout << "Ingrese una cantidad valida." << endl;
             }
         }
         else {
             cout << "Producto no encontrado con el ID proporcionado." << endl;
         }
-        cout << "¿Desea agregar más productos? (Si/No): ";
+        cout << "¿Desea agregar mas productos? (Si/No): ";
         cin >> respuesta;
         transform(respuesta.begin(), respuesta.end(), respuesta.begin(), ::tolower);
     } while (respuesta == "si");
@@ -164,17 +167,17 @@ void mostrarProductosBodega(HashMap& listaDeProductos) {
         }
         case 2: {
             string categoria;
-            cout << "Ingrese la categoría para filtrar: ";
+            cout << "Ingrese la categoria para filtrar: ";
             getline(cin >> ws, categoria);
-            cout << "Productos en la categoría " << categoria << ":" << endl;
+            cout << "Productos en la categoria " << categoria << ":" << endl;
             listaDeProductos.mostrarProductosCategoria(categoria);
             break;
         }
         case 3: {
             string subcategoria;
-            cout << "Ingrese la sub-categoría para filtrar: ";
+            cout << "Ingrese la sub-categoria para filtrar: ";
             getline(cin >> ws, subcategoria);
-            cout << "Productos en la sub-categoría " << subcategoria << ":" << endl;
+            cout << "Productos en la sub-categoria " << subcategoria << ":" << endl;
             listaDeProductos.mostrarProductosSubCategoria(subcategoria);
             break;
         }
@@ -182,7 +185,7 @@ void mostrarProductosBodega(HashMap& listaDeProductos) {
             cout << "Saliendo..." << endl;
             break;
         default:
-            cout << "Opción no válida. Inténtelo de nuevo." << endl;
+            cout << "Opcion no valida. Intentelo de nuevo." << endl;
     }
 }
 
@@ -218,7 +221,7 @@ void agregarProducosABodega(HashMap& listaDeProductos) {
 queue<clienteGeneral*> agregarCliente(queue<clienteGeneral*> listaDeClientes) {
     
 
-    //Agregar cliente a la fila
+    //Agregar cliente segun su tipo a la fila
     string nombre;
     string tipoCliente;
     cout << "Ingrese el nombre del cliente: " << endl;

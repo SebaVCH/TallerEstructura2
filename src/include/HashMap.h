@@ -11,7 +11,7 @@
 class HashMap {
 private:
 
-    static const int sizeInicial = 100;
+    const int sizeInicial = 100;
     Producto** tabla;
     int capacidad;
     int numElementosAlmacenados;
@@ -27,11 +27,10 @@ public:
     void insertarProducto(Producto* producto);
     Producto* buscar(string id);
     void eliminarProducto(string id);
-    int obtenerCantElementos();
     void actualizarArchivo(string& nombreArchivo);
     void mostrarProductos();
-    void mostrarProductosCategoria(string categoria);
-    void mostrarProductosSubCategoria(string subcategoria);
+    void mostrarProductosCategoria(string categoriaBuscada);
+    void mostrarProductosSubCategoria(string subCategoriaBuscada);
 
     void limpiarHashMap();
 };

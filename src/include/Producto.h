@@ -21,20 +21,14 @@ public:
     Producto(string categoria, string subcategoria,string idProducto,string nombreProducto, float precio,int cantEnStock );
 
     string getCategoria() ;
-    void setCategoria(string categoria);
 
     string getSubcategoria() ;
-    void setSubcategoria(string subcategoria);
-
 
     float getPrecio() ;
-    void setPrecio(float precio);
 
     string getIdProducto() ;
-    void setIdProducto(string idProducto);
 
     string getNombreProducto() ;
-    void setNombreProducto(string nombreProducto);
 
     int getCantEnStock() ;
     void setCantEnStock(int cantEnStock);
