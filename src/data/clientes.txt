@@ -1,9 +1,9 @@
-Luis,Tercera edad
-Elena,Tercera edad
-María,Discapacidad
-David,Embarazada
 Juan
+María,Discapacidad
 Pedro
 Ana
+Luis,Tercera edad
 Carolina
+David,Embarazada
 Carlos
+Elena,Tercera edad

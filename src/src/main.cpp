@@ -8,8 +8,6 @@
 #include "../include/clientePreferencial.h"
 #include "../include/Producto.h"
 #include "../include/HashMap.h"
-// g++ src/src/*.cpp -o a
-
 using namespace std;
 
 //Menu
@@ -123,7 +121,6 @@ void generarBoleta(HashMap& listaProductos){
                         listaProductos.eliminarProducto(producto->getIdProducto());
                     }
                     //Actualizar la bodega
-                    ///workspaces/TallerEstructura2/src/data/Bodega.txt
                     string nombreArch = "/workspaces/TallerEstructura2/src/data/Bodega.txt";
                     listaProductos.actualizarArchivo(nombreArch);
 
@@ -213,7 +210,6 @@ void agregarProducosABodega(HashMap& listaDeProductos) {
     Producto* nuevoProducto = new Producto(categoria,subcategoria,idProducto,nombreProducto,precio,cantEnStock);
 
     listaDeProductos.insertarProducto(nuevoProducto);
-    ///workspaces/TallerEstructura2/src/data/Bodega.txt
     string nombreArch = "/workspaces/TallerEstructura2/src/data/Bodega.txt";
     listaDeProductos.actualizarArchivo(nombreArch);
     cout << "Producto agregado correctamente a la bodega." << endl;
@@ -280,8 +276,6 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
 
     queue<clienteGeneral*> lista;
     queue<clienteGeneral*> listaMostrar;
-    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
-    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
 
     ifstream archivo("/workspaces/TallerEstructura2/src/data/clientes.txt");
     string linea;
@@ -325,8 +319,6 @@ HashMap cargarDatosProductos(){
 
     //Cargar productos al HashMap
     HashMap listaDeProductos;
-    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
-    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
     ifstream arch("/workspaces/TallerEstructura2/src/data/Bodega.txt");
     string linea;
 
