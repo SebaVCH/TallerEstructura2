@@ -165,7 +165,7 @@ void HashMap::mostrarProductosSubCategoria(string subCategoriaBuscada) {
     transform(subCategoriaBuscada.begin(), subCategoriaBuscada.end(), subCategoriaBuscada.begin(), ::tolower);
     for (int i = 0; i < capacidad; ++i) {
         if (tabla[i] != nullptr) {
-            string subCategoriaProducto = tabla[i]->getCategoria();
+            string subCategoriaProducto = tabla[i]->getSubcategoria();
             transform(subCategoriaProducto.begin(), subCategoriaProducto.end(), subCategoriaProducto.begin(), ::tolower);
             if (subCategoriaProducto == subCategoriaBuscada) {
                 Producto* producto = tabla[i];
