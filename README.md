@@ -70,7 +70,8 @@ Para compilar y ejecutar el programa, sigue estos pasos:
 2. Compila el programa utilizando el siguiente comando:
 g++ src/src/*.cpp -o taller
 3. Ejecuta el programa con el siguiente comando:
-./taller 
+./taller
+
 Instrucciones de Uso
 1. Ejecuta el programa.
 2. Se mostrará un menú de opciones, donde se podrá elegir entre varias opciones
