@@ -8,8 +8,6 @@
 #include "../include/clientePreferencial.h"
 #include "../include/Producto.h"
 #include "../include/HashMap.h"
-// g++ src/src/*.cpp -o a
-
 using namespace std;
 
 //Menu
@@ -123,7 +121,7 @@ void generarBoleta(HashMap& listaProductos){
                         listaProductos.eliminarProducto(producto->getIdProducto());
                     }
                     //Actualizar la bodega
-                    string nombreArch = "D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt";
+                    string nombreArch = "/workspaces/TallerEstructura2/src/data/Bodega.txt";
                     listaProductos.actualizarArchivo(nombreArch);
 
                 }
@@ -212,7 +210,7 @@ void agregarProducosABodega(HashMap& listaDeProductos) {
     Producto* nuevoProducto = new Producto(categoria,subcategoria,idProducto,nombreProducto,precio,cantEnStock);
 
     listaDeProductos.insertarProducto(nuevoProducto);
-    string nombreArch = "D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt";
+    string nombreArch = "/workspaces/TallerEstructura2/src/data/Bodega.txt";
     listaDeProductos.actualizarArchivo(nombreArch);
     cout << "Producto agregado correctamente a la bodega." << endl;
 
@@ -278,10 +276,8 @@ queue<clienteGeneral*> cargarDatosClientesOrdenados() {
 
     queue<clienteGeneral*> lista;
     queue<clienteGeneral*> listaMostrar;
-    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\clientes.txt"
-    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt"
 
-    ifstream archivo("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt");
+    ifstream archivo("/workspaces/TallerEstructura2/src/data/clientes.txt");
     string linea;
     int numeroAtencion = 1;
     cout << "Lista de clientes y numero de atencion: " << endl;
@@ -323,9 +319,7 @@ HashMap cargarDatosProductos(){
 
     //Cargar productos al HashMap
     HashMap listaDeProductos;
-    //"D:\\Programas\\c++ workspace visual\\taller2\\TallerEstructura2\\src\\data\\Bodega.txt"
-    //"D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt"
-    ifstream arch("D:\\CLionProjects\\TallerEstructura2\\src\\data\\Bodega.txt");
+    ifstream arch("/workspaces/TallerEstructura2/src/data/Bodega.txt");
     string linea;
 
      if (arch.is_open()) {
@@ -424,7 +418,7 @@ queue<clienteGeneral *> ordenarSegunPreferencia(queue<clienteGeneral *> &listaDe
 void guardarDatosClientes(queue<clienteGeneral*> &listaClientes) {
     // Guardar datos de los clientes en un archivo temporal
 
-    ofstream archivoTemp("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_temp.txt");
+    ofstream archivoTemp("/workspaces/TallerEstructura2/src/data/clientes_temp.txt");
 
     if (archivoTemp.is_open()) {
         // Copiar la cola original para no modificarla
@@ -447,11 +441,11 @@ void guardarDatosClientes(queue<clienteGeneral*> &listaClientes) {
         cout << "Datos de clientes guardados temporalmente." << endl;
 
         // Eliminar el archivo original
-        if (remove("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
+        if (remove("/workspaces/TallerEstructura2/src/data/clientes.txt") != 0) {
             perror("Error al eliminar el archivo original.");
         } else {
             // Cambiar el nombre del archivo temporal al nombre del archivo original
-            if (rename("D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes_temp.txt", "D:\\CLionProjects\\TallerEstructura2\\src\\data\\clientes.txt") != 0) {
+            if (rename("/workspaces/TallerEstructura2/src/data/clientes_temp.txt", "/workspaces/TallerEstructura2/src/data/clientes.txt") != 0) {
                 perror("Error al cambiar el nombre del archivo temporal.");
             } else {
                 cout << "Datos de clientes guardados correctamente." << endl;
